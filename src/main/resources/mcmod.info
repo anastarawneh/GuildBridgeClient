@@ -1,0 +1,10 @@
+[
+  {
+    "modid": "guildbridgeclient",
+    "name": "GuildBridge Client",
+    "description": "A mod that links Hypixel Guild chat with a Discord channel client-side.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "authorList": ["anastarawneh"]
+  }
+]

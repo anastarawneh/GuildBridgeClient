@@ -1,0 +1,3 @@
+guildbridgeclient.config.enabled=Enabled
+guildbridgeclient.config.webhook_url=Webhook URL
+guildbridgeclient.config.websocket_url=WebSocket URL
