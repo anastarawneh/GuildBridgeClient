@@ -12,7 +12,7 @@ If you need help creating a similar mod, you can contact me using the info below
 1. Install [Forge](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html). This mod is not compatible with other clients, and I'm not knowledgable enough to change that.
 2. Download the mod from the [releases](https://github.com/anastarawneh/GuildBridgeClient/releases) page and place it in your `.minecraft/mods` folder. (If you can't find it, you can create it manually.)
 3. Launch the game.
-4. Edit the mod config in `Mod Options` in the title screen or in your pause menu, and add the URLs that will be shared in the Guild Discord.
+4. Edit the mod config in `Mods` in the title screen or `Mod Options...` in your pause menu, and add the URLs that will be shared in the Guild Discord.
 5. Join Hypixel (mc.hypixel.net). If you successfully join, the mod will now connect to the chat bridge server.
 
 ## Having problems?
