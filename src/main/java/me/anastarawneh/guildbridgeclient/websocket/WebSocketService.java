@@ -1,15 +1,17 @@
 package me.anastarawneh.guildbridgeclient.websocket;
 
-import com.neovisionaries.ws.client.WebSocket;
 import me.anastarawneh.guildbridgeclient.GuildBridgeClient;
 import me.anastarawneh.guildbridgeclient.discord.WebhookClient;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import org.java_websocket.client.WebSocketClient;
+
+import java.net.URI;
 
 public class WebSocketService {
-    public static WebSocket ws;
+    public static WebSocketClient ws;
     public static boolean WS_CONNECTED = false;
 
     @SubscribeEvent
@@ -19,17 +21,17 @@ public class WebSocketService {
         Minecraft client = FMLClientHandler.instance().getClient();
         if (client.isSingleplayer()) return;
         if (client.getCurrentServerData().serverIP.contains("hypixel.net")) {
-            Thread thread = new Thread(() -> {
-                try {
-                    ws = WebSocketClient.connect();
-                    WS_CONNECTED = true;
-                    GuildBridgeClient.LOGGER.info("WebSocket connected");
-                } catch (Exception e) {
-                    WS_CONNECTED = false;
-                    throw new RuntimeException(e);
-                }
-            });
-            thread.start();
+            try {
+                URI uri = URI.create(GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("websocket_url").getString());
+                ws = new WebSocketInstance(uri);
+                ws.connect();
+                WS_CONNECTED = true;
+                GuildBridgeClient.LOGGER.info("WebSocket connected");
+            } catch (Exception e) {
+                WS_CONNECTED = false;
+                throw new RuntimeException(e);
+            }
+
             String username = Minecraft.getMinecraft().getSession().getUsername();
             WebhookClient.sendMessage(username, username + " joined.");
         }
@@ -41,7 +43,7 @@ public class WebSocketService {
         if (WS_CONNECTED) {
             String username = Minecraft.getMinecraft().getSession().getUsername();
             WebhookClient.sendMessage(username, username + " left.");
-            ws.disconnect();
+            ws.close();
             WS_CONNECTED = false;
             GuildBridgeClient.LOGGER.info("WebSocket disconnected");
         }
