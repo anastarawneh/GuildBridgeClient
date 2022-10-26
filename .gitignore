@@ -21,7 +21,4 @@ build
 eclipse
 run
 
-build.gradle
-gradlew
-gradlew.bat
-gradle
+old
