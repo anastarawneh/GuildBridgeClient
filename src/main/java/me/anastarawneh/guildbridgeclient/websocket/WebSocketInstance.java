@@ -25,7 +25,9 @@ public class WebSocketInstance extends WebSocketClient {
     public void onMessage(String message) {
         JsonObject json = new JsonParser().parse(message).getAsJsonObject();
         String username = json.get("username").getAsString();
-        String content = json.get("message").getAsString();
+        String content = json.get("message").getAsString()
+                .replaceAll("<gbcm>", String.valueOf(ChatFormatting.AQUA))
+                .replaceAll("</gbcm>", String.valueOf(ChatFormatting.RESET));
         Minecraft.getMinecraft().thePlayer.addChatMessage((new ChatComponentText(
                 ChatFormatting.BLUE + "Discord > " + ChatFormatting.GOLD + username + ChatFormatting.RESET + ": " + content
         )));
