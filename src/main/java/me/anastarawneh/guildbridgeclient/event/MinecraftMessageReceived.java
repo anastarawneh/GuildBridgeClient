@@ -13,6 +13,7 @@ public class MinecraftMessageReceived {
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
         if (!GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("enabled").getBoolean()) return;
+        if (Minecraft.getMinecraft().getCurrentServerData() == null) return;
         if (!Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel.net")) return;
         if (GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("webhook_url").getString().isEmpty()) return;
         String message = event.message.getUnformattedText().replaceAll("\u00A7.", "");
