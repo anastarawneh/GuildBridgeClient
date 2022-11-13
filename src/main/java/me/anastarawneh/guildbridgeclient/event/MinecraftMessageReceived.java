@@ -14,7 +14,8 @@ public class MinecraftMessageReceived {
     public void onChatMessage(ClientChatReceivedEvent event) {
         if (!GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("enabled").getBoolean()) return;
         if (Minecraft.getMinecraft().getCurrentServerData() == null) return;
-        if (!Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel.net")) return;
+        String serverIP = Minecraft.getMinecraft().getCurrentServerData().serverIP;
+        if (!serverIP.contains("hypixel.net") || serverIP.contains("alpha.hypixel.net")) return;
         if (GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("webhook_url").getString().isEmpty()) return;
         String message = event.message.getUnformattedText().replaceAll("\u00A7.", "");
         String regex = "^Guild > (\\[(?:VI|MV)P\\+{0,2}] )?([^ ]*)( \\[[\\w\\d]*])?: (.*)";
