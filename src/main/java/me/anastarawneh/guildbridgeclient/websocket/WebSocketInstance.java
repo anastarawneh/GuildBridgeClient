@@ -5,7 +5,10 @@ import com.google.gson.JsonParser;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import me.anastarawneh.guildbridgeclient.GuildBridgeClient;
 import net.minecraft.client.Minecraft;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 import net.minecraftforge.common.ForgeHooks;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -47,6 +50,32 @@ public class WebSocketInstance extends WebSocketClient {
                 Minecraft.getMinecraft().thePlayer.addChatMessage((ForgeHooks.newChatWithLinks(
                         ChatFormatting.BLUE + "Discord > " + ChatFormatting.GOLD + username + ChatFormatting.RESET + ": " + content
                 )));
+                break;
+            case 3:
+                // Event
+                String event = json.getAsJsonObject("data").get("event").getAsString();
+                Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 0);
+                if (event.equals("Traveling Zoo")) {
+                    String legendary = json.getAsJsonObject("data").get("legendary").getAsString();
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
+                            GuildBridgeClient.MSG_PREFIX + " " + ChatFormatting.YELLOW + event + ChatFormatting.RESET
+                                    + " starts now! The legendary pet is a " + ChatFormatting.GOLD + legendary + ChatFormatting.RESET + "."
+                    ));
+                    break;
+                }
+                String time = json.getAsJsonObject("data").get("time").getAsString();
+                String warpName = json.getAsJsonObject("data").getAsJsonObject("warp").get("name").getAsString();
+                String warpCommand = json.getAsJsonObject("data").getAsJsonObject("warp").get("command").getAsString();
+                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
+                        GuildBridgeClient.MSG_PREFIX + " " + ChatFormatting.YELLOW + event + ChatFormatting.RESET
+                                + " starts " + time + "! Click to warp to " + warpName + ". "
+                ).appendSibling(new ChatComponentText(
+                        "[" + ChatFormatting.DARK_GREEN + ChatFormatting.BOLD + "WARP" + ChatFormatting.RESET + "]"
+                ).setChatStyle(new ChatStyle()
+                        .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, warpCommand))
+                        .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(
+                                "Warp to " + warpName
+                        ))))));
                 break;
             default:
                 GuildBridgeClient.LOGGER.error("Received bad status code.");
