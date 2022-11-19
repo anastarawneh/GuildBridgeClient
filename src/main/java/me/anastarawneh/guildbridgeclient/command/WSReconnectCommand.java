@@ -1,6 +1,5 @@
 package me.anastarawneh.guildbridgeclient.command;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import me.anastarawneh.guildbridgeclient.GuildBridgeClient;
 import me.anastarawneh.guildbridgeclient.websocket.WebSocketService;
 import me.anastarawneh.guildbridgeclient.websocket.WebSocketInstance;
@@ -32,10 +31,7 @@ public class WSReconnectCommand extends CommandBase {
             WebSocketService.ws = new WebSocketInstance(uri);
             WebSocketService.ws.connect();
             Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
-                    ChatFormatting.GRAY + "[" +
-                            ChatFormatting.GREEN + "GuildBridgeClient" +
-                            ChatFormatting.GRAY + "]" +
-                            ChatFormatting.RESET + " Reconnected to the WebSocket."
+                    GuildBridgeClient.MSG_PREFIX + " Reconnected to the WebSocket."
             ));
         } catch (Exception e) {
             throw new RuntimeException(e);

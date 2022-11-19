@@ -1,5 +1,6 @@
 package me.anastarawneh.guildbridgeclient;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import me.anastarawneh.guildbridgeclient.command.WSReconnectCommand;
 import me.anastarawneh.guildbridgeclient.event.MinecraftMessageReceived;
 import me.anastarawneh.guildbridgeclient.websocket.WebSocketService;
@@ -21,6 +22,7 @@ public class GuildBridgeClient {
     public static final String VERSION = "@VERSION@";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
     public static Configuration CONFIG;
+    public static final String MSG_PREFIX = ChatFormatting.GRAY + "[" + ChatFormatting.GREEN + "GuildBridgeClient" + ChatFormatting.GRAY + "]" + ChatFormatting.RESET;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
