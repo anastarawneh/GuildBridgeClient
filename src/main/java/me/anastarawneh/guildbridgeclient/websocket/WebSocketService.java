@@ -29,7 +29,7 @@ public class WebSocketService {
     private static boolean CHECKED_VERSION = false;
 
     @SubscribeEvent
-    public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) throws IOException {
+    public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         if (!GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("enabled").getBoolean()) return;
         if (WS_CONNECTED) return;
         Minecraft client = FMLClientHandler.instance().getClient();
@@ -54,7 +54,7 @@ public class WebSocketService {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.PlayerTickEvent event) throws IOException {
+    public void onTick(TickEvent.PlayerTickEvent event) {
         if (CHECK_VERSION && !CHECKED_VERSION) {
             CHECK_VERSION = false;
             new Thread(() -> {
