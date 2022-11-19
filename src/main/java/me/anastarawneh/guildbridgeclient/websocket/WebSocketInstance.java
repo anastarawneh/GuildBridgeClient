@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.ForgeHooks;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -28,9 +29,9 @@ public class WebSocketInstance extends WebSocketClient {
         String content = json.get("message").getAsString()
                 .replaceAll("<gbcm>", String.valueOf(ChatFormatting.AQUA))
                 .replaceAll("</gbcm>", String.valueOf(ChatFormatting.RESET));
-        Minecraft.getMinecraft().thePlayer.addChatMessage((new ChatComponentText(
                 ChatFormatting.BLUE + "Discord > " + ChatFormatting.GOLD + username + ChatFormatting.RESET + ": " + content
         )));
+                Minecraft.getMinecraft().thePlayer.addChatMessage((ForgeHooks.newChatWithLinks(
     }
 
     @Override
