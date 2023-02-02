@@ -49,6 +49,18 @@ public class WebSocketService {
 
             String username = Minecraft.getMinecraft().getSession().getUsername();
             WebhookClient.sendMessage(username, username + " joined.");
+
+            if (!GuildBridgeClient.USERNAME.equals("")) return;
+            new Thread(() -> {
+                while (true) {
+                    try {
+                        if (Minecraft.getMinecraft().thePlayer.getDisplayName().getUnformattedText().equals(Minecraft.getMinecraft().getSession().getUsername())) continue;
+                        GuildBridgeClient.USERNAME = Minecraft.getMinecraft().thePlayer.getDisplayName().getUnformattedText().replaceFirst(" ..\\[.+]", "");
+                        break;
+                    } catch (NullPointerException ignored) {
+                    }
+                }
+            }).start();
         }
         CHECK_VERSION = true;
     }

@@ -1,6 +1,7 @@
 package me.anastarawneh.guildbridgeclient;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import me.anastarawneh.guildbridgeclient.command.HandCommand;
 import me.anastarawneh.guildbridgeclient.command.WSReconnectCommand;
 import me.anastarawneh.guildbridgeclient.event.MinecraftMessageReceived;
 import me.anastarawneh.guildbridgeclient.websocket.WebSocketService;
@@ -23,6 +24,7 @@ public class GuildBridgeClient {
     public static final Logger LOGGER = LogManager.getLogger(MODID);
     public static Configuration CONFIG;
     public static final String MSG_PREFIX = ChatFormatting.GRAY + "[" + ChatFormatting.GREEN + "GuildBridgeClient" + ChatFormatting.GRAY + "]" + ChatFormatting.RESET;
+    public static String USERNAME = "";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -42,6 +44,7 @@ public class GuildBridgeClient {
         MinecraftForge.EVENT_BUS.register(new WebSocketService());
 
         ClientCommandHandler.instance.registerCommand(new WSReconnectCommand());
+        ClientCommandHandler.instance.registerCommand(new HandCommand());
     }
 
     @SubscribeEvent

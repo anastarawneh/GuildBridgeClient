@@ -9,6 +9,7 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.ForgeHooks;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -84,8 +85,17 @@ public class WebSocketInstance extends WebSocketClient {
                                 "Warp to " + warpName
                         ))))));
                 break;
+            case 4:
+                // Item Message
+                String playerName = json.getAsJsonObject("data").get("player_name").getAsString();
+                String itemName = json.getAsJsonObject("data").get("item_name").getAsString();
+                String nbt = json.getAsJsonObject("data").get("nbt").getAsString().replace('\u00a9', '"');
+                IChatComponent component = new ChatComponentText("[").appendSibling(new ChatComponentText(itemName)).appendText("]");
+                component.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new ChatComponentText(nbt)));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(ChatFormatting.DARK_GREEN + "Guild > ").appendSibling(new ChatComponentText(playerName)).appendSibling(new ChatComponentText(ChatFormatting.WHITE + ": ")).appendSibling(component));
+                break;
             default:
-                GuildBridgeClient.LOGGER.error("Received bad status code.");
+                GuildBridgeClient.LOGGER.error("Unsupported status code (" + json.get("status").getAsInt() + ").");
                 break;
         }
     }
