@@ -27,6 +27,7 @@ public class WebSocketService {
     public static boolean WS_CONNECTED = false;
     private static boolean CHECK_VERSION = false;
     private static boolean CHECKED_VERSION = false;
+    public static boolean FIRST_CONNECT = true;
 
     @SubscribeEvent
     public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
@@ -40,7 +41,6 @@ public class WebSocketService {
                 URI uri = URI.create(GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("websocket_url").getString());
                 ws = new WebSocketInstance(uri);
                 ws.connect();
-                WS_CONNECTED = true;
                 GuildBridgeClient.LOGGER.info("WebSocket connected");
             } catch (Exception e) {
                 WS_CONNECTED = false;
@@ -95,9 +95,9 @@ public class WebSocketService {
     @SubscribeEvent
     public void onLeaveServer(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
         if (!GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("enabled").getBoolean()) return;
+        String username = Minecraft.getMinecraft().getSession().getUsername();
+        WebhookClient.sendMessage(username, username + " left.");
         if (WS_CONNECTED) {
-            String username = Minecraft.getMinecraft().getSession().getUsername();
-            WebhookClient.sendMessage(username, username + " left.");
             ws.close();
             WS_CONNECTED = false;
             GuildBridgeClient.LOGGER.info("WebSocket disconnected");

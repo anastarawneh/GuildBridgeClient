@@ -23,7 +23,14 @@ public class WebSocketInstance extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-
+        WebSocketService.WS_CONNECTED = true;
+        if (WebSocketService.FIRST_CONNECT) {
+            WebSocketService.FIRST_CONNECT = false;
+            return;
+        }
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
+                GuildBridgeClient.MSG_PREFIX + " Reconnected to the WebSocket."
+        ));
     }
 
     @Override
@@ -85,7 +92,23 @@ public class WebSocketInstance extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-
+        WebSocketService.WS_CONNECTED = false;
+        if (code == 1006) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
+                    GuildBridgeClient.MSG_PREFIX + " Disconnected from the WebSocket. Attempting to reconnect in 10 seconds."
+            ));
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            new Thread(this::reconnect).start();
+        }
+        else if (code != 1000) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
+                    GuildBridgeClient.MSG_PREFIX + " Could not connect to the WebSocket. Contact Anas for support."
+            ));
+        }
     }
 
     @Override
