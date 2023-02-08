@@ -12,7 +12,7 @@ public class WebhookClient {
         webhook = new DiscordWebhook(url);
         webhook.setAvatarUrl("https://minotar.net/helm/" + username);
         webhook.setUsername(username);
-        webhook.setContent(message);
+        webhook.setContent(message.replace("\"", "\\\""));
         new Thread(() -> {
             try {
                 webhook.execute();
