@@ -18,11 +18,11 @@ public class MinecraftMessageReceived {
         if (!serverIP.contains("hypixel.net") || serverIP.contains("alpha.hypixel.net")) return;
         if (GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("webhook_url").getString().isEmpty()) return;
         String message = event.message.getUnformattedText().replaceAll("\u00A7.", "");
-        String regex = "^Guild > (\\[(?:VI|MV)P\\+{0,2}] )?([^ ]*)( \\[\\w*])?: (.*)";
+        String regex = "^Guild > (\\[(?:VI|MV)P\\+{0,2}] )? ?([^ ]*)( [\\u2672\\u2600\\u24B7])?( \\[\\w*])?: (.*)";
         Matcher matcher = Pattern.compile(regex).matcher(message);
         String username = Minecraft.getMinecraft().thePlayer.getName();
         if (matcher.matches() && matcher.group(2).equalsIgnoreCase(username)) {
-            WebhookClient.sendMessage(username, matcher.group(4));
+            WebhookClient.sendMessage(username, matcher.group(5));
         }
     }
 }
