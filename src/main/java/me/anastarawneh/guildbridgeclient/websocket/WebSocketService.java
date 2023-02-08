@@ -71,14 +71,14 @@ public class WebSocketService {
             CHECK_VERSION = false;
             new Thread(() -> {
                 try {
-                    InputStream stream = new URL("https://api.github.com/repos/anastarawneh/guildbridgeclient/releases?per_page=1").openStream();
+                    InputStream stream = new URL("https://api.github.com/repos/anastarawneh/guildbridgeclient/releases/latest").openStream();
                     String content;
                     try {
                         content = IOUtils.toString(stream);
                     } finally {
                         IOUtils.closeQuietly(stream);
                     }
-                    JsonObject json = new JsonParser().parse(content).getAsJsonArray().get(0).getAsJsonObject();
+                    JsonObject json = new JsonParser().parse(content).getAsJsonObject();
                     String latestVersion = json.get("tag_name").getAsString().replaceFirst("v", "");
                     if (!latestVersion.equals(GuildBridgeClient.VERSION)) {
                         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
