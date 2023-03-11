@@ -24,8 +24,8 @@ minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
     
-    mappings = "stable_20"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    mappings = "stable_22"
+    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     replace "@VERSION@", project.version
     replaceIn "GuildBridgeClient.java"
