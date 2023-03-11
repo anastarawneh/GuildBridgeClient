@@ -2,6 +2,7 @@ package me.anastarawneh.guildbridgeclient;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import me.anastarawneh.guildbridgeclient.command.HandCommand;
+import me.anastarawneh.guildbridgeclient.command.FarmCommand;
 import me.anastarawneh.guildbridgeclient.command.WSReconnectCommand;
 import me.anastarawneh.guildbridgeclient.event.MinecraftMessageReceived;
 import me.anastarawneh.guildbridgeclient.websocket.WebSocketService;
@@ -45,6 +46,7 @@ public class GuildBridgeClient {
 
         ClientCommandHandler.instance.registerCommand(new WSReconnectCommand());
         ClientCommandHandler.instance.registerCommand(new HandCommand());
+        ClientCommandHandler.instance.registerCommand(new FarmCommand());
     }
 
     @SubscribeEvent
