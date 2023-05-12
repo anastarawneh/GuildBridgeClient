@@ -107,6 +107,7 @@ public class WebSocketInstance extends WebSocketClient {
             Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
                     GuildBridgeClient.MSG_PREFIX + " Disconnected from the WebSocket. Attempting to reconnect in 10 seconds."
             ));
+            GuildBridgeClient.LOGGER.error("Disconnected from the WebSocket, returned code " + code);
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
@@ -118,6 +119,7 @@ public class WebSocketInstance extends WebSocketClient {
             Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(
                     GuildBridgeClient.MSG_PREFIX + " Could not connect to the WebSocket. Contact Anas for support."
             ));
+            GuildBridgeClient.LOGGER.error("Could not connect to the WebSocket, returned code " + code);
         }
     }
 
