@@ -38,6 +38,9 @@ public class WebSocketService {
         String serverIP = Minecraft.getMinecraft().getCurrentServerData().serverIP;
         if (serverIP.contains("hypixel.net") && !serverIP.contains("alpha.hypixel.net")) {
             try {
+                System.setProperty("java.net.preferIPv6Addresses", "false");
+                System.setProperty("java.net.preferIPv4Stack", "true");
+
                 URI uri = URI.create(GuildBridgeClient.CONFIG.getCategory("guildbridgeclient").get("websocket_url").getString());
                 ws = new WebSocketInstance(uri);
                 ws.connect();
